@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { validarEmail } from '@/utils/validarEmail'
 import type { CadastroPessoalForm } from '@/types/CadastroPessoalForm'
 import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
@@ -36,7 +37,10 @@ const Pessoal = () => {
                         id="campo-email"
                         placeholder="Insira seu endereço de email"
                         type="email"
-                        {...register('email')}
+                        {...register('email', {
+                            required: true,
+                            validate: validarEmail,
+                        })}
                     />
                 </Fieldset>
                 <Fieldset>
