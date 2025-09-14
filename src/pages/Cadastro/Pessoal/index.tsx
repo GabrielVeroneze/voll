@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import type { CadastroPessoalForm } from '@/types/CadastroPessoalForm'
 import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
 import Form from '@/components/Form'
@@ -7,12 +8,16 @@ import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
 
 const Pessoal = () => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit } = useForm<CadastroPessoalForm>()
+
+    const aoSubmeter = (dados: CadastroPessoalForm) => {
+        console.log(dados)
+    }
 
     return (
         <>
             <Titulo>Insira alguns dados básicos:</Titulo>
-            <Form>
+            <Form onSubmit={handleSubmit(aoSubmeter)}>
                 <Fieldset>
                     <Label htmlFor="campo-nome">Nome</Label>
                     <Input
