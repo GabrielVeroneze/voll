@@ -49,6 +49,7 @@ const Pessoal = () => {
                         id="campo-email"
                         placeholder="Insira seu endereço de email"
                         type="email"
+                        $error={!!errors.email}
                         {...register('email', {
                             required: 'O campo de email é obrigatório',
                             validate: validarEmail,
@@ -64,6 +65,7 @@ const Pessoal = () => {
                         id="campo-telefone"
                         type="text"
                         placeholder="Ex: (DDD) XXXXX-XXXX"
+                        $error={!!errors.telefone}
                         {...register('telefone', {
                             required: 'O campo de telefone é obrigatório',
                             pattern: {
@@ -82,6 +84,7 @@ const Pessoal = () => {
                         id="campo-senha"
                         placeholder="Crie uma senha"
                         type="password"
+                        $error={!!errors.senha}
                         {...register('senha', {
                             required: 'O campo de senha é obrigatório',
                             minLength: {
@@ -102,6 +105,7 @@ const Pessoal = () => {
                         id="campo-senha-confirmacao"
                         placeholder="Repita a senha anterior"
                         type="password"
+                        $error={!!errors.senhaVerificada}
                         {...register('senhaVerificada')}
                     />
                     {errors.senhaVerificada && (
