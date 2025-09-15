@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { validarEmail } from '@/utils/validarEmail'
+import { validarSenha } from '@/utils/validarSenha'
 import type { CadastroPessoalForm } from '@/types/CadastroPessoalForm'
 import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
@@ -106,7 +107,10 @@ const Pessoal = () => {
                         placeholder="Repita a senha anterior"
                         type="password"
                         $error={!!errors.senhaVerificada}
-                        {...register('senhaVerificada')}
+                        {...register('senhaVerificada', {
+                            required: 'O campo de repita a senha é obrigatório',
+                            validate: validarSenha,
+                        })}
                     />
                     {errors.senhaVerificada && (
                         <ErrorMessage>{errors.senhaVerificada.message}</ErrorMessage>
