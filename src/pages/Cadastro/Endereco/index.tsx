@@ -1,3 +1,5 @@
+import { useForm } from 'react-hook-form'
+import type { CadastroEnderecoForm } from '@/types/CadastroEnderecoForm'
 import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
 import Form from '@/components/Form'
@@ -7,16 +9,23 @@ import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
 
 const Endereco = () => {
+    const { register, handleSubmit } = useForm<CadastroEnderecoForm>()
+
+    const aoSubmeter = (dados: CadastroEnderecoForm) => {
+        console.log(dados)
+    }
+
     return (
         <>
             <Titulo>Agora, mais alguns dados sobre você:</Titulo>
-            <Form>
+            <Form onSubmit={handleSubmit(aoSubmeter)}>
                 <Fieldset>
                     <Label htmlFor="campo-cep">CEP</Label>
                     <Input
                         id="campo-cep"
                         placeholder="Insira seu CEP"
                         type="text"
+                        {...register('cep')}
                     />
                 </Fieldset>
                 <Fieldset>
@@ -25,6 +34,7 @@ const Endereco = () => {
                         id="campo-rua"
                         placeholder="Rua Agarikov"
                         type="text"
+                        {...register('rua')}
                     />
                 </Fieldset>
                 <FormContainer>
@@ -34,6 +44,7 @@ const Endereco = () => {
                             id="campo-numero-rua"
                             placeholder="Ex: 1440"
                             type="text"
+                            {...register('numero')}
                         />
                     </Fieldset>
                     <Fieldset>
@@ -42,6 +53,7 @@ const Endereco = () => {
                             id="campo-bairro"
                             placeholder="Vila Mariana"
                             type="text"
+                            {...register('bairro')}
                         />
                     </Fieldset>
                 </FormContainer>
@@ -51,6 +63,7 @@ const Endereco = () => {
                         id="campo-localidade"
                         placeholder="São Paulo, SP"
                         type="text"
+                        {...register('localidade')}
                     />
                 </Fieldset>
                 <Button type="submit">Cadastrar</Button>
