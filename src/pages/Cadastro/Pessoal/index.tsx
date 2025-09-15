@@ -7,9 +7,14 @@ import Form from '@/components/Form'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
+import ErrorMessage from '@/components/ErrorMessage'
 
 const Pessoal = () => {
-    const { register, handleSubmit } = useForm<CadastroPessoalForm>()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<CadastroPessoalForm>()
 
     const aoSubmeter = (dados: CadastroPessoalForm) => {
         console.log(dados)
@@ -25,11 +30,15 @@ const Pessoal = () => {
                         id="campo-nome"
                         placeholder="Digite seu nome completo"
                         type="text"
+                        $error={!!errors.nome}
                         {...register('nome', {
                             required: true,
                             minLength: 5,
                         })}
                     />
+                    {errors.nome && (
+                        <ErrorMessage>{errors.nome.message}</ErrorMessage>
+                    )}
                 </Fieldset>
                 <Fieldset>
                     <Label htmlFor="campo-email">E-mail</Label>
