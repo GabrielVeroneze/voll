@@ -18,7 +18,16 @@ const Endereco = () => {
         setError,
         setValue,
         watch,
-    } = useForm<CadastroEnderecoForm>()
+    } = useForm<CadastroEnderecoForm>({
+        mode: 'all',
+        defaultValues: {
+            cep: '',
+            rua: '',
+            numero: '',
+            bairro: '',
+            localidade: '',
+        },
+    })
 
     const cepDigitado = watch('cep')
 
@@ -56,7 +65,9 @@ const Endereco = () => {
                         placeholder="Insira seu CEP"
                         type="text"
                         $error={!!errors.cep}
-                        {...register('cep')}
+                        {...register('cep', {
+                            required: 'O campo de CEP é obrigatório',
+                        })}
                         onBlur={() => fetchEndereco(cepDigitado)}
                     />
                     {errors.cep && (
@@ -70,7 +81,9 @@ const Endereco = () => {
                         placeholder="Rua Agarikov"
                         type="text"
                         $error={!!errors.rua}
-                        {...register('rua')}
+                        {...register('rua', {
+                            required: 'O campo de rua é obrigatório',
+                        })}
                     />
                     {errors.rua && (
                         <ErrorMessage>{errors.rua.message}</ErrorMessage>
@@ -84,7 +97,9 @@ const Endereco = () => {
                             placeholder="Ex: 1440"
                             type="text"
                             $error={!!errors.numero}
-                            {...register('numero')}
+                            {...register('numero', {
+                                required: 'O campo de numero é obrigatório',
+                            })}
                         />
                         {errors.numero && (
                             <ErrorMessage>{errors.numero.message}</ErrorMessage>
@@ -97,7 +112,9 @@ const Endereco = () => {
                             placeholder="Vila Mariana"
                             type="text"
                             $error={!!errors.bairro}
-                            {...register('bairro')}
+                            {...register('bairro', {
+                                required: 'O campo de bairro é obrigatório',
+                            })}
                         />
                         {errors.bairro && (
                             <ErrorMessage>{errors.bairro.message}</ErrorMessage>
@@ -111,7 +128,9 @@ const Endereco = () => {
                         placeholder="São Paulo, SP"
                         type="text"
                         $error={!!errors.localidade}
-                        {...register('localidade')}
+                        {...register('localidade', {
+                            required: 'O campo de localidade é obrigatório',
+                        })}
                     />
                     {errors.localidade && (
                         <ErrorMessage>{errors.localidade.message}</ErrorMessage>
