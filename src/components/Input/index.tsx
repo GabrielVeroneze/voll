@@ -1,9 +1,5 @@
-import type { InputHTMLAttributes } from 'react'
+import type { InputProps } from '@/types/InputProps'
 import styled from 'styled-components'
-
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    $error?: boolean
-}
 
 const Input = styled.input<InputProps>`
     background: #f0f0f0;
