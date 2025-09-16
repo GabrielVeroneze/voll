@@ -8,9 +8,19 @@ import FormContainer from '@/components/FormContainer'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
+import ErrorMessage from '@/components/ErrorMessage'
 
 const Endereco = () => {
-    const { register, handleSubmit, setError } = useForm<CadastroEnderecoForm>()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+        setValue,
+        watch,
+    } = useForm<CadastroEnderecoForm>()
+
+    const cepDigitado = watch('cep')
 
     const aoSubmeter = (dados: CadastroEnderecoForm) => {
         console.log(dados)
@@ -19,6 +29,10 @@ const Endereco = () => {
     const fetchEndereco = async (cep: string) => {
         try {
             const data = await buscarEndereco(cep)
+
+            setValue('rua', data.logradouro)
+            setValue('bairro', data.bairro)
+            setValue('localidade', `${data.localidade}, ${data.uf}`)
 
             console.log(data)
         } catch (error) {
@@ -31,8 +45,6 @@ const Endereco = () => {
         }
     }
 
-    fetchEndereco('01001000')
-
     return (
         <>
             <Titulo>Agora, mais alguns dados sobre você:</Titulo>
@@ -43,8 +55,13 @@ const Endereco = () => {
                         id="campo-cep"
                         placeholder="Insira seu CEP"
                         type="text"
+                        $error={!!errors.cep}
                         {...register('cep')}
+                        onBlur={() => fetchEndereco(cepDigitado)}
                     />
+                    {errors.cep && (
+                        <ErrorMessage>{errors.cep.message}</ErrorMessage>
+                    )}
                 </Fieldset>
                 <Fieldset>
                     <Label htmlFor="campo-rua">Rua</Label>
@@ -52,8 +69,12 @@ const Endereco = () => {
                         id="campo-rua"
                         placeholder="Rua Agarikov"
                         type="text"
+                        $error={!!errors.rua}
                         {...register('rua')}
                     />
+                    {errors.rua && (
+                        <ErrorMessage>{errors.rua.message}</ErrorMessage>
+                    )}
                 </Fieldset>
                 <FormContainer>
                     <Fieldset>
@@ -62,8 +83,12 @@ const Endereco = () => {
                             id="campo-numero-rua"
                             placeholder="Ex: 1440"
                             type="text"
+                            $error={!!errors.numero}
                             {...register('numero')}
                         />
+                        {errors.numero && (
+                            <ErrorMessage>{errors.numero.message}</ErrorMessage>
+                        )}
                     </Fieldset>
                     <Fieldset>
                         <Label htmlFor="campo-bairro">Bairro</Label>
@@ -71,8 +96,12 @@ const Endereco = () => {
                             id="campo-bairro"
                             placeholder="Vila Mariana"
                             type="text"
+                            $error={!!errors.bairro}
                             {...register('bairro')}
                         />
+                        {errors.bairro && (
+                            <ErrorMessage>{errors.bairro.message}</ErrorMessage>
+                        )}
                     </Fieldset>
                 </FormContainer>
                 <Fieldset>
@@ -81,8 +110,12 @@ const Endereco = () => {
                         id="campo-localidade"
                         placeholder="São Paulo, SP"
                         type="text"
+                        $error={!!errors.localidade}
                         {...register('localidade')}
                     />
+                    {errors.localidade && (
+                        <ErrorMessage>{errors.localidade.message}</ErrorMessage>
+                    )}
                 </Fieldset>
                 <Button type="submit">Cadastrar</Button>
             </Form>
