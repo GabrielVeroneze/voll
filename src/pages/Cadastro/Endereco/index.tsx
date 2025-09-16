@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { buscarEndereco } from '@/services/endereco'
 import type { CadastroEnderecoForm } from '@/types/CadastroEnderecoForm'
 import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
@@ -9,11 +10,28 @@ import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
 
 const Endereco = () => {
-    const { register, handleSubmit } = useForm<CadastroEnderecoForm>()
+    const { register, handleSubmit, setError } = useForm<CadastroEnderecoForm>()
 
     const aoSubmeter = (dados: CadastroEnderecoForm) => {
         console.log(dados)
     }
+
+    const fetchEndereco = async (cep: string) => {
+        try {
+            const data = await buscarEndereco(cep)
+
+            console.log(data)
+        } catch (error) {
+            setError('cep', {
+                type: 'manual',
+                message: 'CEP inválido',
+            })
+
+            console.error(error)
+        }
+    }
+
+    fetchEndereco('01001000')
 
     return (
         <>
