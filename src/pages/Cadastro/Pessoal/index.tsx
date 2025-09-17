@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { validarEmail } from '@/utils/validarEmail'
 import { validarSenha } from '@/utils/validarSenha'
@@ -15,9 +16,23 @@ const Pessoal = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitSuccessful },
         control,
-    } = useForm<CadastroPessoalForm>()
+        reset,
+    } = useForm<CadastroPessoalForm>({
+        mode: 'all',
+        defaultValues: {
+            nome: '',
+            email: '',
+            telefone: '',
+            senha: '',
+            senhaVerificada: '',
+        }
+    })
+
+    useEffect(() => {
+        reset()
+    }, [isSubmitSuccessful, reset])
 
     const aoSubmeter = (dados: CadastroPessoalForm) => {
         console.log(dados)
