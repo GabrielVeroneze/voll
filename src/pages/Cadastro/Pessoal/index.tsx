@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { validarEmail } from '@/utils/validarEmail'
 import { validarSenha } from '@/utils/validarSenha'
 import type { CadastroPessoalForm } from '@/types/CadastroPessoalForm'
@@ -6,6 +6,7 @@ import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
 import Form from '@/components/Form'
 import Input from '@/components/Input'
+import InputMask from '@/components/InputMask'
 import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
 import ErrorMessage from '@/components/ErrorMessage'
@@ -15,6 +16,7 @@ const Pessoal = () => {
         register,
         handleSubmit,
         formState: { errors },
+        control,
     } = useForm<CadastroPessoalForm>()
 
     const aoSubmeter = (dados: CadastroPessoalForm) => {
@@ -60,25 +62,34 @@ const Pessoal = () => {
                         <ErrorMessage>{errors.email.message}</ErrorMessage>
                     )}
                 </Fieldset>
-                <Fieldset>
-                    <Label>Telefone</Label>
-                    <Input
-                        id="campo-telefone"
-                        type="text"
-                        placeholder="Ex: (DDD) XXXXX-XXXX"
-                        $error={!!errors.telefone}
-                        {...register('telefone', {
-                            required: 'O campo de telefone é obrigatório',
-                            pattern: {
-                                value: /^\(\d{2,3}\) \d{5}-\d{4}$/,
-                                message: 'O telefone inserido está no formato incorreto',
-                            },
-                        })}
-                    />
-                    {errors.telefone && (
-                        <ErrorMessage>{errors.telefone.message}</ErrorMessage>
+                <Controller
+                    control={control}
+                    name="telefone"
+                    rules={{
+                        required: 'O campo de telefone é obrigatório',
+                        pattern: {
+                            value: /^\(\d{2,3}\) \d{5}-\d{4}$/,
+                            message: 'O telefone inserido está no formato incorreto',
+                        },
+                    }}
+                    render={({ field }) => (
+                        <Fieldset>
+                            <Label>Telefone</Label>
+                            <InputMask
+                                format="(##) #####-####"
+                                mask="_"
+                                id="campo-telefone"
+                                type="text"
+                                placeholder="Ex: (DDD) XXXXX-XXXX"
+                                $error={!!errors.telefone}
+                                {...field}
+                            />
+                            {errors.telefone && (
+                                <ErrorMessage>{errors.telefone.message}</ErrorMessage>
+                            )}
+                        </Fieldset>
                     )}
-                </Fieldset>
+                />
                 <Fieldset>
                     <Label htmlFor="campo-senha">Crie uma senha</Label>
                     <Input
