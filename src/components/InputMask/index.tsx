@@ -1,8 +1,8 @@
-import Mask, { type Props } from 'react-input-mask'
+import { PatternFormat } from 'react-number-format'
 import type { InputProps } from '@/types/InputProps'
 import styled from 'styled-components'
 
-const InputMask = styled(Mask)<InputProps, Props>`
+const InputMask = styled(PatternFormat)<InputProps>`
     background: #f0f0f0;
     border: ${(props) => (props.$error ? ' 1px solid #a71e1e' : 'none')};
     border-radius: 8px;
