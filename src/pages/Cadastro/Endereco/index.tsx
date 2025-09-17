@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { buscarEndereco } from '@/services/endereco'
 import type { CadastroEnderecoForm } from '@/types/CadastroEnderecoForm'
 import Button from '@/components/Button'
@@ -6,6 +6,7 @@ import Fieldset from '@/components/Fieldset'
 import Form from '@/components/Form'
 import FormContainer from '@/components/FormContainer'
 import Input from '@/components/Input'
+import InputMask from '@/components/InputMask'
 import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
 import ErrorMessage from '@/components/ErrorMessage'
@@ -18,6 +19,7 @@ const Endereco = () => {
         setError,
         setValue,
         watch,
+        control,
     } = useForm<CadastroEnderecoForm>({
         mode: 'all',
         defaultValues: {
@@ -58,22 +60,31 @@ const Endereco = () => {
         <>
             <Titulo>Agora, mais alguns dados sobre você:</Titulo>
             <Form onSubmit={handleSubmit(aoSubmeter)}>
-                <Fieldset>
-                    <Label htmlFor="campo-cep">CEP</Label>
-                    <Input
-                        id="campo-cep"
-                        placeholder="Insira seu CEP"
-                        type="text"
-                        $error={!!errors.cep}
-                        {...register('cep', {
-                            required: 'O campo de CEP é obrigatório',
-                        })}
-                        onBlur={() => fetchEndereco(cepDigitado)}
-                    />
-                    {errors.cep && (
-                        <ErrorMessage>{errors.cep.message}</ErrorMessage>
+                <Controller
+                    control={control}
+                    name="cep"
+                    rules={{
+                        required: 'O campo de CEP é obrigatório',
+                    }}
+                    render={({ field }) => (
+                        <Fieldset>
+                            <Label htmlFor="campo-cep">CEP</Label>
+                            <InputMask
+                                format="#####-###"
+                                mask="_"
+                                id="campo-cep"
+                                placeholder="Insira seu CEP"
+                                type="text"
+                                $error={!!errors.cep}
+                                {...field}
+                                onBlur={() => fetchEndereco(cepDigitado)}
+                            />
+                            {errors.cep && (
+                                <ErrorMessage>{errors.cep.message}</ErrorMessage>
+                            )}
+                        </Fieldset>
                     )}
-                </Fieldset>
+                />
                 <Fieldset>
                     <Label htmlFor="campo-rua">Rua</Label>
                     <Input
