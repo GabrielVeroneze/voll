@@ -1,11 +1,11 @@
 import Logotipo from '@/components/Logotipo'
-import Endereco from './Endereco'
+import Pessoal from './Pessoal'
 
 const Cadastro = () => {
     return (
         <>
             <Logotipo />
-            <Endereco />
+            <Pessoal />
         </>
     )
 }
